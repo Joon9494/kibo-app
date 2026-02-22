@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "18206206938",
+    "project_id": "kibo-19064",
+    "storage_bucket": "kibo-19064.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18206206938:android:a3de9159dd55c1b8ccaee3",
+        "android_client_info": {
+          "package_name": "com.lazzywhale.kibo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18206206938-plvb5edljnn1a34kpbcocpsc0qsnr6fp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3wUi5danHVItBdEQudWCs_2_ePjzBUB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18206206938-plvb5edljnn1a34kpbcocpsc0qsnr6fp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "18206206938-aa7gtqg02voeuu11mu6o7rpsc4bcqhr2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lazzywhale.kibo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
