@@ -1,11 +1,15 @@
+// =====================================================
+// 📁 lib/features/calendar/home_screen.dart
+// =====================================================
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../auth/auth_service.dart';
-import '../../core/theme.dart';
 import '../briefing/briefing_service.dart';
 import '../lens/lens_screen.dart';
+import '../settings/settings_screen.dart';
 import 'gemini_service.dart';
 import 'schedule_service.dart';
 import 'schedule_model.dart';
@@ -39,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    // 음성 인식 초기화
     _speech.initialize(
       onStatus: (status) {
         if (!mounted) return;
@@ -57,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() => _speechAvailable = available);
     });
 
-    // 스트림 한 번만 생성
     _schedulesStream = _scheduleService.getSchedules();
     _scheduleSubscription = _schedulesStream.listen(
       (schedules) {
@@ -131,7 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
               TextPosition(offset: _controller.text.length),
             );
           });
-          // 최종 결과면 자동 제출
           if (result.finalResult && result.recognizedWords.isNotEmpty) {
             _onSubmit();
           }
@@ -170,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('✅ "${parsed['title']}" 일정이 추가됐어요!'),
-            backgroundColor: KiboTheme.teal,
+            backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         );
       } else {
@@ -196,6 +197,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
+    // ✅ 동적 테마 — colorScheme 사용
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -203,11 +206,19 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('KIBO',
             style: TextStyle(fontWeight: FontWeight.w800)),
         actions: [
+          // ✅ 설정 버튼 actions 리스트 안으로 수정
           IconButton(
             icon: const Icon(Icons.camera_alt_outlined),
             tooltip: '렌즈로 일정 추가',
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const LensScreen()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: '설정',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
             ),
           ),
           IconButton(
@@ -249,22 +260,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: KiboTheme.navy.withOpacity(0.05),
+                  // ✅ KiboTheme.navy → colorScheme.primary
+                  color: colorScheme.primary.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: KiboTheme.navy.withOpacity(0.15),
+                    color: colorScheme.primary.withOpacity(0.15),
                   ),
                 ),
                 child: _briefingLoading
-                    ? const Row(
+                    ? Row(
                         children: [
                           SizedBox(
                             width: 16,
                             height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: colorScheme.primary,
+                            ),
                           ),
-                          SizedBox(width: 12),
-                          Text('브리핑 생성 중...',
+                          const SizedBox(width: 12),
+                          const Text('브리핑 생성 중...',
                               style: TextStyle(fontSize: 13)),
                         ],
                       )
@@ -302,13 +317,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 16),
                           Text(
                             '아직 일정이 없어요.',
-                            style: TextStyle(color: Colors.grey.shade500),
+                            style:
+                                TextStyle(color: Colors.grey.shade500),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             '아래에 자연어로 입력해보세요!',
+                            // ✅ KiboTheme.teal → colorScheme.secondary
                             style: TextStyle(
-                                color: KiboTheme.teal, fontSize: 13),
+                                color: colorScheme.secondary,
+                                fontSize: 13),
                           ),
                         ],
                       ),
@@ -320,7 +338,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         final s = _schedules[index];
                         return _ScheduleCard(
                           schedule: s,
-                          onDelete: () => _scheduleService.deleteSchedule(s),
+                          onDelete: () =>
+                              _scheduleService.deleteSchedule(s),
                         );
                       },
                     ),
@@ -360,7 +379,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: IconButton(
                       icon: Icon(
                         _isListening ? Icons.mic : Icons.mic_none,
-                        color: _isListening ? Colors.red : Colors.grey,
+                        color: _isListening
+                            ? Colors.red
+                            : Colors.grey,
                       ),
                       onPressed: _toggleListening,
                     ),
@@ -371,12 +392,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 48,
                     height: 48,
                     child: _loading
-                        ? const Padding(
-                            padding: EdgeInsets.all(12),
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                        ? Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: colorScheme.primary,
+                            ),
                           )
                         : IconButton(
-                            icon: Icon(Icons.send, color: KiboTheme.blue),
+                            // ✅ KiboTheme.blue → colorScheme.primary
+                            icon: Icon(Icons.send,
+                                color: colorScheme.primary),
                             onPressed: _onSubmit,
                           ),
                   ),
@@ -399,6 +425,8 @@ class _ScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dt = schedule.dateTime;
+    // ✅ 동적 테마 적용
+    final colorScheme = Theme.of(context).colorScheme;
     final weekdays = ['월', '화', '수', '목', '금', '토', '일'];
     final weekday = weekdays[dt.weekday - 1];
     final dateStr =
@@ -415,7 +443,8 @@ class _ScheduleCard extends StatelessWidget {
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: KiboTheme.navy.withOpacity(0.08),
+            // ✅ KiboTheme.navy → colorScheme.primary
+            color: colorScheme.primary.withOpacity(0.08),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -426,7 +455,7 @@ class _ScheduleCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: KiboTheme.navy,
+                  color: colorScheme.primary,
                 ),
               ),
             ],
@@ -441,12 +470,15 @@ class _ScheduleCard extends StatelessWidget {
           children: [
             Text(
               dateStr,
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+              style:
+                  TextStyle(fontSize: 12, color: Colors.grey.shade600),
             ),
             if (schedule.location.isNotEmpty)
               Text(
                 '📍 ${schedule.location}',
-                style: TextStyle(fontSize: 12, color: KiboTheme.teal),
+                // ✅ KiboTheme.teal → colorScheme.secondary
+                style: TextStyle(
+                    fontSize: 12, color: colorScheme.secondary),
               ),
           ],
         ),
