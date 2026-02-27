@@ -38,7 +38,7 @@ dependencies:
   image_picker: ^1.1.2
   
   # 음성 입력
-  speech_to_text: ^6.3.0
+  speech_to_text: ^7.3.0
 
   # 유틸
   intl: ^0.19.0

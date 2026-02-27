@@ -15,8 +15,12 @@ class AuthService {
 
   Future<User?> signInWithGoogle() async {
     // 구글 로그인 팝업
-    final googleUser = await GoogleSignIn().signIn();
-    if (googleUser == null) return null; // 취소
+    final googleUser = await GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/calendar',
+      ],
+    ).signIn();    if (googleUser == null) return null; // 취소
 
     // 인증 토큰 받기
     final googleAuth = await googleUser.authentication;
@@ -53,7 +57,12 @@ class AuthService {
 
   // 로그아웃 — 구글 + Firebase 양쪽 모두
   Future<void> signOut() async {
-    await GoogleSignIn().signOut();
+    await GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/calendar',
+      ],
+    ).signOut();
     await _auth.signOut();
   }
 

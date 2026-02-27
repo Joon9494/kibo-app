@@ -6,7 +6,7 @@
 
 class AppConstants {
   // Gemini API 키
-  static const String geminiApiKey = 'AIzaSyCojUUx26KUNdFekEWvxZe76mmgBUeB9YU';
+  static const String geminiApiKey = 'AIzaSyA2mpZqufVlmsjl3yE9sTNbxfTxFPE-gvE';
 
   // Gemini 모델명 — 업데이트 시 여기만 수정
   static const String geminiFlashModel = 'gemini-2.5-flash';

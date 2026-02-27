@@ -320,8 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         final s = _schedules[index];
                         return _ScheduleCard(
                           schedule: s,
-                          onDelete: () =>
-                              _scheduleService.deleteSchedule(s.id),
+                          onDelete: () => _scheduleService.deleteSchedule(s),
                         );
                       },
                     ),
