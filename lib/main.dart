@@ -1,9 +1,15 @@
+// =====================================================
+// 📁 lib/main.dart
+// =====================================================
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'core/theme.dart';
+import 'core/theme_provider.dart';
 import 'features/auth/auth_gate.dart';
 
 void main() async {
@@ -12,24 +18,30 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // 앱 시작 전 1회만 초기화 → Provider에 주입
+  final prefs = await SharedPreferences.getInstance();
+
   runApp(
-    const ProviderScope(
-      child: KiboApp(),
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const KiboApp(),
     ),
   );
 }
 
-class KiboApp extends StatelessWidget {
+class KiboApp extends ConsumerWidget {
   const KiboApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final palette = ref.watch(themeProvider);
     return MaterialApp(
       title: 'KIBO',
       debugShowCheckedModeBanner: false,
-      theme: KiboTheme.light,
-      darkTheme: KiboTheme.dark,
-      themeMode: ThemeMode.system,
+      theme: KiboTheme.buildLight(palette),
       home: const AuthGate(),
     );
   }
