@@ -6,9 +6,9 @@
 
 class AppConstants {
   // Gemini API 키
-  static const String geminiApiKey = 'AIzaSyAiGPdZDhJ9nnGf3DIwgqwXDAg7BXmXnAw';
+  static const String geminiApiKey = 'AIzaSyCojUUx26KUNdFekEWvxZe76mmgBUeB9YU';
 
   // Gemini 모델명 — 업데이트 시 여기만 수정
-  static const String geminiFlashModel = 'gemini-2.0-flash'; // 빠른 처리 (일정 파싱, 요약)
-  static const String geminiProModel = 'gemini-2.0-pro-exp'; // 심층 처리 (브리핑 통합)
+  static const String geminiFlashModel = 'gemini-2.5-flash';
+  static const String geminiProModel = 'gemini-2.5-flash';
 }

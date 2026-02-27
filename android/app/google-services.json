@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "18206206938-h5dit5sdr71bfnbgsi1erttumq0knpta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lazzywhale.kibo",
+            "certificate_hash": "21ef623cf7358d3a64f6ec884ef05047815109d8"
+          }
+        },
+        {
+          "client_id": "18206206938-lbc98m11s1sqob8avcr3aad196bq2laj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lazzywhale.kibo",
+            "certificate_hash": "286b40b7ef8526f3737034bb151d56b739252ad2"
+          }
+        },
+        {
           "client_id": "18206206938-plvb5edljnn1a34kpbcocpsc0qsnr6fp.apps.googleusercontent.com",
           "client_type": 3
         }
