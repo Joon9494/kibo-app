@@ -11,6 +11,7 @@ import 'firebase_options.dart';
 import 'core/theme.dart';
 import 'core/theme_provider.dart';
 import 'features/auth/auth_gate.dart';
+import 'features/notification/notification_service.dart'; // ✅ 추가
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,9 @@ void main() async {
 
   // 앱 시작 전 1회만 초기화 → Provider에 주입
   final prefs = await SharedPreferences.getInstance();
+
+  // ✅ 알림 서비스 초기화
+  await NotificationService().initialize();
 
   runApp(
     ProviderScope(

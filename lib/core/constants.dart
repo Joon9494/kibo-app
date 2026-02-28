@@ -14,4 +14,6 @@ class AppConstants {
   // Gemini 모델명 — 업데이트 시 여기서 설정
   static const String geminiFlashModel = 'gemini-2.5-flash';
   static const String geminiProModel = 'gemini-2.5-flash';
+  static String get tmapApiKey =>
+    dotenv.env['TMAP_API_KEY'] ?? '';
 }
